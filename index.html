@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Zendblog : PHP Zend - Install and Deploy on Ubuntu">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Zendblog</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/vinayurs/zendblog">View on GitHub</a>
+
+          <h1 id="project_title">Zendblog</h1>
+          <h2 id="project_tagline">PHP Zend - Install and Deploy on Ubuntu</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/vinayurs/zendblog/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/vinayurs/zendblog/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h3>
+<a id="introduction" class="anchor" href="#introduction" aria-hidden="true"><span class="octicon octicon-link"></span></a>Introduction:</h3>
+
+<p>This step by step guide will walk you through installation and configuring Zend framework for PHP development with MySQL database on Ubuntu 14.04 or above.</p>
+
+<h3>
+<a id="1--install-mysql" class="anchor" href="#1--install-mysql" aria-hidden="true"><span class="octicon octicon-link"></span></a>1.  Install Mysql</h3>
+
+<p>sudo apt-get install mysql-server mysql-common mysql-client  mysql-doc-5.0;</p>
+
+<h3>
+<a id="2--install-apache-2" class="anchor" href="#2--install-apache-2" aria-hidden="true"><span class="octicon octicon-link"></span></a>2.  Install Apache 2</h3>
+
+<pre><code>The following command to install the Apache HTTP server, its documentation, and  collection of utilities.
+    sudo apt-get install apache2 apache2-doc apache2-utils;
+</code></pre>
+
+<p>To check Apache running  or not go to the URL http://localhost it should be display like this</p>
+
+<h3>
+<a id="to-start-stop-and-restart-apache2" class="anchor" href="#to-start-stop-and-restart-apache2" aria-hidden="true"><span class="octicon octicon-link"></span></a>To start, stop and restart apache2</h3>
+
+<pre><code>    sudo service apache2 start
+    sudo service apache2 stop
+    sudo service apache2 restart
+</code></pre>
+
+<h3>
+<a id="to-install-support-for-php-scripting" class="anchor" href="#to-install-support-for-php-scripting" aria-hidden="true"><span class="octicon octicon-link"></span></a>To install Support for PHP Scripting</h3>
+
+<pre><code>    sudo apt-get install libapache2-mod-php5 php5 php-pear php5-xcache
+</code></pre>
+
+<h3>
+<a id="to-install-phpmyadmin" class="anchor" href="#to-install-phpmyadmin" aria-hidden="true"><span class="octicon octicon-link"></span></a>To install phpMyAdmin</h3>
+
+<pre><code>    sudo apt-get install phpmyadmin
+</code></pre>
+
+<h3>
+<a id="to-up-and-run-phpmyadmin-we-need-to-configure-apache" class="anchor" href="#to-up-and-run-phpmyadmin-we-need-to-configure-apache" aria-hidden="true"><span class="octicon octicon-link"></span></a>To up and run phpmyadmin we need to configure apache</h3>
+
+<pre><code>    cd  /etc/apache2/
+    sudo gedit apache2.conf
+</code></pre>
+
+<h3>
+<a id="we-need-to--include-the-following-line-in-apach2conf" class="anchor" href="#we-need-to--include-the-following-line-in-apach2conf" aria-hidden="true"><span class="octicon octicon-link"></span></a>We need to  include the following line in apach2.conf</h3>
+
+<pre><code>    Include /etc/phpmyadmin/apache.conf
+</code></pre>
+
+<p>To check phpMyAdmin is runing  or not go to the URL http://localhost/phpmyadmin or http://Domainname/phpmyadmin it should be display like this</p>
+
+<p>while installing mysql you will be asked to chose username and password.We need to use same uaername and password login. </p>
+
+<h3>
+<a id="to-install-zend-framework" class="anchor" href="#to-install-zend-framework" aria-hidden="true"><span class="octicon octicon-link"></span></a>To install Zend framework</h3>
+
+<pre><code>    Sudo apt-get install  zend-framework
+</code></pre>
+
+<p>You can execute" zf " in terminal to check all the zend frame work  command.</p>
+
+<pre><code>To  create project go to
+    cd  /var/www/
+Then
+    zf  create projectname
+</code></pre>
+
+<h3>
+<a id="virtual-host-to-use-default-host" class="anchor" href="#virtual-host-to-use-default-host" aria-hidden="true"><span class="octicon octicon-link"></span></a>Virtual host (To use default host)</h3>
+
+<pre><code>    cd  /etc/apache2/
+    sudo gedit apache2.conf
+
+Move to Directory location and make sure Below setting
+
+    &lt;Directoy  /var/www/&gt;
+                   Options Indexes  FollowSymLinks
+                   AllowOverride None
+                   Required all granted
+    &lt;/ Directoy&gt;  
+
+Then move to
+
+    cd /etc/apache2/sites-available
+    sudo gedit 000-default.conf
+
+Go To Document Root then Modify Document Root line to
+
+    DocumentRoot /var/www/projectname/public
+
+And make sure /var/www have a permission to read,write and execute.if the permission is denied execute the following command 
+
+    sudo chmod -R 755 /var/www/
+</code></pre>
+
+<h3>
+<a id="note" class="anchor" href="#note" aria-hidden="true"><span class="octicon octicon-link"></span></a>Note:</h3>
+
+<p>If you are facing any problem with pre Installed Mysql and Apache.Run Below command to remove mysql and apache2  completely then reinstall it</p>
+
+<h3>
+<a id="to-uninstall-mysql-completely" class="anchor" href="#to-uninstall-mysql-completely" aria-hidden="true"><span class="octicon octicon-link"></span></a>To uninstall Mysql completely</h3>
+
+<pre><code>    sudo apt-get --purge remove mysql-server mysql-common mysql-client libmysqlclient15-dev libmysql-ruby
+</code></pre>
+
+<h3>
+<a id="to-uninstall-apache2-completely" class="anchor" href="#to-uninstall-apache2-completely" aria-hidden="true"><span class="octicon octicon-link"></span></a>To uninstall apache2 completely</h3>
+
+<pre><code>    sudo apt-get remove --purge apache2 apache2-utils apache2.2-bin apache2-common;
+    sudo apt-get autoremove;
+</code></pre>
+
+<h3>
+<a id="to-uninstall-phpmyadmin-completely" class="anchor" href="#to-uninstall-phpmyadmin-completely" aria-hidden="true"><span class="octicon octicon-link"></span></a>To uninstall phpmyadmin completely</h3>
+
+<pre><code>    sudo apt-get --purge remove phpmyadmin
+</code></pre>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Zendblog maintained by <a href="https://github.com/vinayurs">vinayurs</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
